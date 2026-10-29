@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Scripts/drift.gd" id="1_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/cloud.tres" id="2_sta"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radius = 3
+height = 4.8
+radial_segments = 8
+rings = 4
+material = ExtResource("2_sta")
+
+[sub_resource type="SphereMesh" id="SphereMesh_2"]
+radius = 2.3
+height = 3.68
+radial_segments = 8
+rings = 4
+material = ExtResource("2_sta")
+
+[sub_resource type="SphereMesh" id="SphereMesh_3"]
+radius = 2.2
+height = 3.52
+radial_segments = 8
+rings = 4
+material = ExtResource("2_sta")
+
+[sub_resource type="SphereMesh" id="SphereMesh_4"]
+radius = 2.1
+height = 3.36
+radial_segments = 8
+rings = 4
+material = ExtResource("2_sta")
+
+[node name="Cloud" type="Node3D"]
+script = ExtResource("1_scr")
+
+[node name="Puff" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_1")
+cast_shadow = 0
+
+[node name="Puff2" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_2")
+position = Vector3(3.2, -0.4, 0.5)
+cast_shadow = 0
+
+[node name="Puff3" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_3")
+position = Vector3(-3, -0.5, -0.3)
+cast_shadow = 0
+
+[node name="Puff4" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4")
+position = Vector3(1.2, 1.1, -0.4)
+cast_shadow = 0

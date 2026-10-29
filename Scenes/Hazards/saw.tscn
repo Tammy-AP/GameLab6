@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scripts/saw.gd" id="1_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/steel.tres" id="2_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/danger.tres" id="3_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/steel_dark.tres" id="4_sta"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
+radius = 0.75
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.95
+bottom_radius = 0.95
+height = 0.1
+radial_segments = 6
+rings = 1
+material = ExtResource("2_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.5
+bottom_radius = 0.5
+height = 0.14
+radial_segments = 10
+rings = 1
+material = ExtResource("3_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.14
+bottom_radius = 0.14
+height = 0.22
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_5"]
+size = Vector3(0.14, 0.5, 0.14)
+material = ExtResource("4_sta")
+
+[node name="Saw" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_1")
+position = Vector3(0, 0.8, 0)
+
+[node name="Blade" type="Node3D" parent="."]
+position = Vector3(0, 0.85, 0)
+
+[node name="DiscA" type="MeshInstance3D" parent="Blade"]
+mesh = SubResource("CylinderMesh_2")
+rotation = Vector3(1.5708, 0, 0)
+
+[node name="DiscB" type="MeshInstance3D" parent="Blade/DiscA"]
+mesh = SubResource("CylinderMesh_2")
+rotation = Vector3(0, 0.5236, 0)
+
+[node name="Core" type="MeshInstance3D" parent="Blade/DiscA"]
+mesh = SubResource("CylinderMesh_3")
+cast_shadow = 0
+
+[node name="Hub" type="MeshInstance3D" parent="Blade/DiscA"]
+mesh = SubResource("CylinderMesh_4")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_5")
+position = Vector3(0, 0.25, -0.12)
+cast_shadow = 0

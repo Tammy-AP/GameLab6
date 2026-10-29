@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_scr"]
+[ext_resource type="Script" path="res://Scripts/character_model.gd" id="2_scr"]
+[ext_resource type="Script" path="res://Scripts/camera_gimbal.gd" id="3_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/puff.tres" id="4_sta"]
+[ext_resource type="AudioStreamWAV" path="res://Assets/Audio/step.wav" id="5_aud"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.4
+height = 1.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_2"]
+radius = 0.09
+height = 0.18
+radial_segments = 5
+rings = 3
+material = ExtResource("4_sta")
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_1")
+position = Vector3(0, 0.85, 0)
+
+[node name="Model" type="Node3D" parent="."]
+script = ExtResource("2_scr")
+anim_idle = "ShooterLib/idle"
+anim_run = "MeleeLib/Sprint"
+anim_jump = "MeleeLib/Jump"
+anim_fall = "MeleeLib/LightFalling"
+anim_flip = "MeleeLib/Jump"
+
+[node name="Gimbal" type="Node3D" parent="."]
+unique_name_in_owner = true
+top_level = true
+script = ExtResource("3_scr")
+
+[node name="Pitch" type="Node3D" parent="Gimbal"]
+position = Vector3(0, 1.4, 0)
+rotation = Vector3(-0.45, 0, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Gimbal/Pitch"]
+spring_length = 9
+margin = 0.3
+collision_mask = 1
+
+[node name="Camera3D" type="Camera3D" parent="Gimbal/Pitch/SpringArm3D"]
+current = true
+fov = 65
+
+[node name="ParticleTrail" type="CPUParticles3D" parent="."]
+position = Vector3(0, 0.1, 0)
+emitting = false
+amount = 14
+lifetime = 0.55
+local_coords = false
+mesh = SubResource("SphereMesh_2")
+direction = Vector3(0, 1, 0)
+spread = 50
+gravity = Vector3(0, -1.5, 0)
+initial_velocity_min = 0.4
+initial_velocity_max = 1.4
+scale_amount_min = 0.5
+scale_amount_max = 1.1
+
+[node name="Footsteps" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_aud")
+volume_db = -9

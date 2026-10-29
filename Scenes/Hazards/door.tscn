@@ -1,0 +1,122 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://Scripts/door.gd" id="1_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/door_stone.tres" id="2_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/door_trim.tres" id="3_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/sparkle.tres" id="4_sta"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(4.2, 0.25, 1.5)
+material = ExtResource("2_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(0.6, 4, 0.8)
+material = ExtResource("2_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_3"]
+size = Vector3(3.8, 0.7, 0.9)
+material = ExtResource("2_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_4"]
+size = Vector3(0.14, 3.8, 0.9)
+material = ExtResource("3_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_5"]
+size = Vector3(2.74, 0.14, 0.9)
+material = ExtResource("3_sta")
+
+[sub_resource type="SphereMesh" id="SphereMesh_6"]
+radius = 0.3
+height = 0.6
+radial_segments = 6
+rings = 3
+material = ExtResource("3_sta")
+
+[sub_resource type="QuadMesh" id="QuadMesh_7"]
+size = Vector2(2.5, 3.7)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8"]
+radius = 0.12
+height = 0.24
+radial_segments = 6
+rings = 3
+material = ExtResource("4_sta")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_9"]
+size = Vector3(2.4, 3.6, 1.4)
+
+[node name="Door" type="Node3D"]
+script = ExtResource("1_scr")
+
+[node name="Step" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_1")
+position = Vector3(0, 0.125, 0.2)
+
+[node name="PillarL" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2")
+position = Vector3(-1.6, 2, 0)
+
+[node name="PillarR" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2")
+position = Vector3(1.6, 2, 0)
+
+[node name="Lintel" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_3")
+position = Vector3(0, 4.15, 0)
+
+[node name="TrimL" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_4")
+position = Vector3(-1.3, 2, 0.1)
+cast_shadow = 0
+
+[node name="TrimR" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_4")
+position = Vector3(1.3, 2, 0.1)
+cast_shadow = 0
+
+[node name="TrimTop" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_5")
+position = Vector3(0, 3.85, 0.1)
+cast_shadow = 0
+
+[node name="Crown" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_6")
+position = Vector3(0, 4.75, 0)
+cast_shadow = 0
+
+[node name="Portal" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_7")
+position = Vector3(0, 2.05, 0)
+cast_shadow = 0
+
+[node name="Orbit" type="Node3D" parent="."]
+position = Vector3(0, 2.05, 0.15)
+
+[node name="Spark" type="MeshInstance3D" parent="Orbit"]
+mesh = SubResource("SphereMesh_8")
+position = Vector3(1.05, 0, 0)
+cast_shadow = 0
+
+[node name="Spark2" type="MeshInstance3D" parent="Orbit"]
+mesh = SubResource("SphereMesh_8")
+position = Vector3(-0.525, 0.9093, 0)
+cast_shadow = 0
+
+[node name="Spark3" type="MeshInstance3D" parent="Orbit"]
+mesh = SubResource("SphereMesh_8")
+position = Vector3(-0.525, -0.9093, 0)
+cast_shadow = 0
+
+[node name="Light" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.2, 1.6)
+light_energy = 0
+omni_range = 9
+
+[node name="Trigger" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger"]
+shape = SubResource("BoxShape3D_9")
+position = Vector3(0, 2, 0.3)

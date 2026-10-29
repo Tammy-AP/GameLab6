@@ -1,0 +1,1591 @@
+[gd_scene load_steps=88 format=3]
+
+[ext_resource type="Script" path="res://Scripts/level.gd" id="1_scr"]
+[ext_resource type="Script" path="res://Scripts/lava.gd" id="2_scr"]
+[ext_resource type="Script" path="res://Scripts/dead_zone.gd" id="3_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/grass.tres" id="4_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/grass_lt.tres" id="5_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/dirt.tres" id="6_sta"]
+[ext_resource type="Script" path="res://Scripts/moving_platform.gd" id="7_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/mover_blue.tres" id="8_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/mover_trim.tres" id="9_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/bridge.tres" id="10_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/bridge_trim.tres" id="11_sta"]
+[ext_resource type="PackedScene" path="res://Scenes/Hazards/spikes_5.tscn" id="12_pac"]
+[ext_resource type="Script" path="res://Scripts/falling_platform.gd" id="13_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/sand.tres" id="14_sta"]
+[ext_resource type="PackedScene" path="res://Scenes/Hazards/checkpoint.tscn" id="15_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Hazards/spring.tscn" id="16_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Hazards/saw.tscn" id="17_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Hazards/door.tscn" id="18_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/coin.tscn" id="19_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/heart.tscn" id="20_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/player.tscn" id="21_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/hud.tscn" id="22_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/treepine.tscn" id="23_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/flowerblue.tscn" id="24_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/flowerpink.tscn" id="25_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/floweryellow.tscn" id="26_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/mushroom.tscn" id="27_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/rock.tscn" id="28_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/treeround.tscn" id="29_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/treeblossom.tscn" id="30_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/deco_island.tscn" id="31_pac"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/cloud.tscn" id="32_pac"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/sun.tres" id="33_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/sparkle.tres" id="34_sta"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
+sky_top_color = Color(0.22, 0.52, 0.95, 1)
+sky_horizon_color = Color(1, 0.86, 0.76, 1)
+ground_horizon_color = Color(1, 0.86, 0.76, 1)
+ground_bottom_color = Color(0.85, 0.8, 0.9, 1)
+sun_angle_max = 30
+sun_curve = 0.15
+
+[sub_resource type="Sky" id="Sky_2"]
+sky_material = SubResource("ProceduralSkyMaterial_1")
+
+[sub_resource type="Environment" id="Environment_3"]
+background_mode = 2
+sky = SubResource("Sky_2")
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.12
+fog_enabled = true
+fog_light_color = Color(1, 0.88, 0.82, 1)
+fog_density = 0.0022
+fog_sky_affect = 0.5
+ssao_enabled = true
+adjustment_enabled = true
+adjustment_saturation = 1.15
+adjustment_contrast = 1.06
+ambient_light_source = 3
+ambient_light_energy = 1
+
+[sub_resource type="Gradient" id="Gradient_4"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.82, 0.88, 1, 1, 1, 0.98, 0.98, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5"]
+frequency = 0.012
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6"]
+width = 512
+height = 512
+seamless = true
+color_ramp = SubResource("Gradient_4")
+noise = SubResource("FastNoiseLite_5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7"]
+albedo_color = Color(1, 1, 1, 1)
+albedo_texture = SubResource("NoiseTexture2D_6")
+roughness = 1
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.55
+emission_texture = SubResource("NoiseTexture2D_6")
+uv1_scale = Vector3(8, 8, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8"]
+size = Vector2(900, 900)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_9"]
+size = Vector3(600, 20, 600)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_10"]
+radius = 5.5
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_11"]
+top_radius = 5.5
+bottom_radius = 5.5
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_12"]
+top_radius = 5.115
+bottom_radius = 5.115
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_13"]
+top_radius = 5.335
+bottom_radius = 1.21
+height = 8.25
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_14"]
+radius = 2.6
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_15"]
+top_radius = 2.6
+bottom_radius = 2.6
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_16"]
+top_radius = 2.418
+bottom_radius = 2.418
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_17"]
+top_radius = 2.522
+bottom_radius = 0.572
+height = 3.9
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_18"]
+radius = 2.3
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_19"]
+top_radius = 2.3
+bottom_radius = 2.3
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_20"]
+top_radius = 2.139
+bottom_radius = 2.139
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_21"]
+top_radius = 2.231
+bottom_radius = 0.506
+height = 3.45
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_22"]
+radius = 2.4
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_23"]
+top_radius = 2.4
+bottom_radius = 2.4
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_24"]
+top_radius = 2.232
+bottom_radius = 2.232
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_25"]
+top_radius = 2.328
+bottom_radius = 0.528
+height = 3.6
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_26"]
+size = Vector3(3.2, 0.5, 3.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_27"]
+size = Vector3(3.2, 0.5, 3.2)
+material = ExtResource("8_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_28"]
+size = Vector3(3.36, 0.14, 3.36)
+material = ExtResource("9_sta")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_29"]
+radius = 3.2
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_30"]
+top_radius = 3.2
+bottom_radius = 3.2
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_31"]
+top_radius = 2.976
+bottom_radius = 2.976
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_32"]
+top_radius = 3.104
+bottom_radius = 0.704
+height = 4.8
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_33"]
+size = Vector3(4.2, 0.6, 14)
+
+[sub_resource type="BoxMesh" id="BoxMesh_34"]
+size = Vector3(4.2, 0.6, 14)
+material = ExtResource("10_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_35"]
+size = Vector3(4.36, 0.14, 14.16)
+material = ExtResource("11_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_36"]
+size = Vector3(3.2, 0.5, 3.2)
+material = ExtResource("14_sta")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_37"]
+size = Vector3(2.9, 0.6, 2.9)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_38"]
+radius = 3.8
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_39"]
+top_radius = 3.8
+bottom_radius = 3.8
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_40"]
+top_radius = 3.534
+bottom_radius = 3.534
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_41"]
+top_radius = 3.686
+bottom_radius = 0.836
+height = 5.7
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_42"]
+radius = 3.6
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_43"]
+top_radius = 3.6
+bottom_radius = 3.6
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_44"]
+top_radius = 3.348
+bottom_radius = 3.348
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_45"]
+top_radius = 3.492
+bottom_radius = 0.792
+height = 5.4
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_46"]
+radius = 4.4
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_47"]
+top_radius = 4.4
+bottom_radius = 4.4
+height = 0.5
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_48"]
+top_radius = 4.092
+bottom_radius = 4.092
+height = 0.07
+radial_segments = 8
+rings = 1
+material = ExtResource("5_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_49"]
+top_radius = 4.268
+bottom_radius = 0.968
+height = 6.6
+radial_segments = 8
+rings = 1
+material = ExtResource("6_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_50"]
+size = Vector3(0.12, 0.12, 14)
+material = ExtResource("11_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_51"]
+size = Vector3(0.2, 0.9, 0.2)
+material = ExtResource("11_sta")
+
+[sub_resource type="SphereMesh" id="SphereMesh_52"]
+radius = 20
+height = 40
+radial_segments = 16
+rings = 8
+material = ExtResource("33_sta")
+
+[sub_resource type="SphereMesh" id="SphereMesh_53"]
+radius = 0.08
+height = 0.16
+radial_segments = 4
+rings = 2
+material = ExtResource("34_sta")
+
+[node name="Level01" type="Node3D"]
+level_title = "LEVEL 1"
+level_subtitle = "Sunny Skylands"
+bgm_name = "bgm_sky"
+script = ExtResource("1_scr")
+
+[node name="Platforms" type="Node3D" parent="."]
+
+[node name="Items" type="Node3D" parent="."]
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_3")
+
+[node name="Sun" type="DirectionalLight3D" parent="Environment"]
+rotation = Vector3(-0.95, 0.7, 0)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.15
+shadow_enabled = true
+directional_shadow_max_distance = 110
+
+[node name="Floor" type="MeshInstance3D" parent="Environment"]
+position = Vector3(0, -10.5, 0)
+mesh = SubResource("PlaneMesh_8")
+material_override = SubResource("StandardMaterial3D_7")
+cast_shadow = 0
+script = ExtResource("2_scr")
+scroll = Vector2(0.01, 0.006)
+
+[node name="DeadZone" type="Area3D" parent="Environment"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("3_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadZone"]
+shape = SubResource("BoxShape3D_9")
+position = Vector3(0, -19, -60)
+
+[node name="Start" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Start"]
+shape = SubResource("CylinderShape3D_10")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Start"]
+mesh = SubResource("CylinderMesh_11")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Start"]
+mesh = SubResource("CylinderMesh_12")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Start"]
+mesh = SubResource("CylinderMesh_13")
+position = Vector3(0, -4.625, 0)
+
+[node name="Isle1" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 0.5, -10)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Isle1"]
+shape = SubResource("CylinderShape3D_14")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Isle1"]
+mesh = SubResource("CylinderMesh_15")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Isle1"]
+mesh = SubResource("CylinderMesh_16")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Isle1"]
+mesh = SubResource("CylinderMesh_17")
+position = Vector3(0, -2.45, 0)
+
+[node name="Isle2" type="StaticBody3D" parent="Platforms"]
+position = Vector3(-4.5, 1.2, -16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Isle2"]
+shape = SubResource("CylinderShape3D_18")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Isle2"]
+mesh = SubResource("CylinderMesh_19")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Isle2"]
+mesh = SubResource("CylinderMesh_20")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Isle2"]
+mesh = SubResource("CylinderMesh_21")
+position = Vector3(0, -2.225, 0)
+
+[node name="Isle3" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 1.9, -23)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Isle3"]
+shape = SubResource("CylinderShape3D_22")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Isle3"]
+mesh = SubResource("CylinderMesh_23")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Isle3"]
+mesh = SubResource("CylinderMesh_24")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Isle3"]
+mesh = SubResource("CylinderMesh_25")
+position = Vector3(0, -2.3, 0)
+
+[node name="Mover1" type="AnimatableBody3D" parent="Platforms"]
+position = Vector3(0, 1.9, -28)
+script = ExtResource("7_scr")
+travel = Vector3(0, 0, -6)
+period = 5
+phase = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Mover1"]
+shape = SubResource("BoxShape3D_26")
+position = Vector3(0, -0.25, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Platforms/Mover1"]
+mesh = SubResource("BoxMesh_27")
+position = Vector3(0, -0.25, 0)
+
+[node name="Trim" type="MeshInstance3D" parent="Platforms/Mover1"]
+mesh = SubResource("BoxMesh_28")
+position = Vector3(0, -0.05, 0)
+cast_shadow = 0
+
+[node name="Isle4" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 1.9, -40)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Isle4"]
+shape = SubResource("CylinderShape3D_29")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Isle4"]
+mesh = SubResource("CylinderMesh_30")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Isle4"]
+mesh = SubResource("CylinderMesh_31")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Isle4"]
+mesh = SubResource("CylinderMesh_32")
+position = Vector3(0, -2.9, 0)
+
+[node name="Bridge1" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 1.9, -50.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Bridge1"]
+shape = SubResource("BoxShape3D_33")
+position = Vector3(0, -0.3, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Platforms/Bridge1"]
+mesh = SubResource("BoxMesh_34")
+position = Vector3(0, -0.3, 0)
+
+[node name="Trim" type="MeshInstance3D" parent="Platforms/Bridge1"]
+mesh = SubResource("BoxMesh_35")
+position = Vector3(0, -0.05, 0)
+cast_shadow = 0
+
+[node name="Spikes" parent="Hazards" instance=ExtResource("12_pac")]
+position = Vector3(0, 1.9, -46.5)
+
+[node name="Spikes2" parent="Hazards" instance=ExtResource("12_pac")]
+position = Vector3(0, 1.9, -53.5)
+
+[node name="Crumble1" type="AnimatableBody3D" parent="Platforms"]
+position = Vector3(0, 1.9, -60.5)
+script = ExtResource("13_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Crumble1"]
+shape = SubResource("BoxShape3D_26")
+position = Vector3(0, -0.25, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Platforms/Crumble1"]
+mesh = SubResource("BoxMesh_36")
+position = Vector3(0, -0.25, 0)
+
+[node name="Trim" type="MeshInstance3D" parent="Platforms/Crumble1"]
+mesh = SubResource("BoxMesh_28")
+position = Vector3(0, -0.05, 0)
+cast_shadow = 0
+
+[node name="Trigger" type="Area3D" parent="Platforms/Crumble1"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Crumble1/Trigger"]
+shape = SubResource("BoxShape3D_37")
+position = Vector3(0, 0.35, 0)
+
+[node name="Crumble2" type="AnimatableBody3D" parent="Platforms"]
+position = Vector3(3.8, 2.5, -66.2)
+script = ExtResource("13_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Crumble2"]
+shape = SubResource("BoxShape3D_26")
+position = Vector3(0, -0.25, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Platforms/Crumble2"]
+mesh = SubResource("BoxMesh_36")
+position = Vector3(0, -0.25, 0)
+
+[node name="Trim" type="MeshInstance3D" parent="Platforms/Crumble2"]
+mesh = SubResource("BoxMesh_28")
+position = Vector3(0, -0.05, 0)
+cast_shadow = 0
+
+[node name="Trigger" type="Area3D" parent="Platforms/Crumble2"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Crumble2/Trigger"]
+shape = SubResource("BoxShape3D_37")
+position = Vector3(0, 0.35, 0)
+
+[node name="Crumble3" type="AnimatableBody3D" parent="Platforms"]
+position = Vector3(0, 3.1, -72)
+script = ExtResource("13_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Crumble3"]
+shape = SubResource("BoxShape3D_26")
+position = Vector3(0, -0.25, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Platforms/Crumble3"]
+mesh = SubResource("BoxMesh_36")
+position = Vector3(0, -0.25, 0)
+
+[node name="Trim" type="MeshInstance3D" parent="Platforms/Crumble3"]
+mesh = SubResource("BoxMesh_28")
+position = Vector3(0, -0.05, 0)
+cast_shadow = 0
+
+[node name="Trigger" type="Area3D" parent="Platforms/Crumble3"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Crumble3/Trigger"]
+shape = SubResource("BoxShape3D_37")
+position = Vector3(0, 0.35, 0)
+
+[node name="Isle5" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 3.1, -79)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Isle5"]
+shape = SubResource("CylinderShape3D_38")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Isle5"]
+mesh = SubResource("CylinderMesh_39")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Isle5"]
+mesh = SubResource("CylinderMesh_40")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Isle5"]
+mesh = SubResource("CylinderMesh_41")
+position = Vector3(0, -3.35, 0)
+
+[node name="Checkpoint" parent="Hazards" instance=ExtResource("15_pac")]
+position = Vector3(-2.2, 3.1, -78.2)
+
+[node name="Spring" parent="Hazards" instance=ExtResource("16_pac")]
+launch_force = 15
+position = Vector3(0, 3.1, -81.2)
+
+[node name="Isle6" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 7.6, -90)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Isle6"]
+shape = SubResource("CylinderShape3D_42")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Isle6"]
+mesh = SubResource("CylinderMesh_43")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Isle6"]
+mesh = SubResource("CylinderMesh_44")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Isle6"]
+mesh = SubResource("CylinderMesh_45")
+position = Vector3(0, -3.2, 0)
+
+[node name="Bridge2" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 7.6, -100.6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Bridge2"]
+shape = SubResource("BoxShape3D_33")
+position = Vector3(0, -0.3, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Platforms/Bridge2"]
+mesh = SubResource("BoxMesh_34")
+position = Vector3(0, -0.3, 0)
+
+[node name="Trim" type="MeshInstance3D" parent="Platforms/Bridge2"]
+mesh = SubResource("BoxMesh_35")
+position = Vector3(0, -0.05, 0)
+cast_shadow = 0
+
+[node name="Saw" parent="Hazards" instance=ExtResource("17_pac")]
+travel = Vector3(2, 0, 0)
+period = 3.2
+phase = 0
+position = Vector3(-1, 7.6, -97.5)
+
+[node name="Saw2" parent="Hazards" instance=ExtResource("17_pac")]
+travel = Vector3(2, 0, 0)
+period = 3.2
+phase = 0.5
+position = Vector3(-1, 7.6, -103.5)
+
+[node name="Isle7" type="StaticBody3D" parent="Platforms"]
+position = Vector3(0, 7.6, -114)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Isle7"]
+shape = SubResource("CylinderShape3D_46")
+position = Vector3(0, -0.25, 0)
+
+[node name="Top" type="MeshInstance3D" parent="Platforms/Isle7"]
+mesh = SubResource("CylinderMesh_47")
+position = Vector3(0, -0.25, 0)
+
+[node name="Cap" type="MeshInstance3D" parent="Platforms/Isle7"]
+mesh = SubResource("CylinderMesh_48")
+position = Vector3(0, -0.005, 0)
+cast_shadow = 0
+
+[node name="Base" type="MeshInstance3D" parent="Platforms/Isle7"]
+mesh = SubResource("CylinderMesh_49")
+position = Vector3(0, -3.8, 0)
+
+[node name="Door" parent="Hazards" instance=ExtResource("18_pac")]
+position = Vector3(0, 7.6, -116.9)
+
+[node name="Coin" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(0, 0.5, -10)
+
+[node name="Coin2" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(-4.5, 1.2, -16.5)
+
+[node name="Coin3" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(0, 1.9, -23)
+
+[node name="Coin4" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(0, 1.9, -40)
+
+[node name="Coin5" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(0, 3.3, -46.5)
+
+[node name="Coin6" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(0, 3.3, -53.5)
+
+[node name="Coin7" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(3.8, 2.5, -66.2)
+
+[node name="Coin8" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(2.2, 3.1, -77)
+
+[node name="Coin9" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(0, 7.8, -84.5)
+
+[node name="Coin10" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(2, 7.6, -91)
+
+[node name="Coin11" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(0, 7.6, -100.6)
+
+[node name="Coin12" parent="Items" instance=ExtResource("19_pac")]
+position = Vector3(3, 7.6, -113)
+
+[node name="Coin" parent="Platforms/Mover1" instance=ExtResource("19_pac")]
+position = Vector3(0, 0, 0)
+
+[node name="Heart" parent="Items" instance=ExtResource("20_pac")]
+position = Vector3(1.6, 1.9, -41.5)
+
+[node name="Heart2" parent="Items" instance=ExtResource("20_pac")]
+position = Vector3(-1.8, 7.6, -90.5)
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+position = Vector3(0, 0.15, 0)
+
+[node name="Player" parent="." instance=ExtResource("21_pac")]
+position = Vector3(0, 0.15, 0)
+
+[node name="HUD" parent="." instance=ExtResource("22_pac")]
+
+[node name="Sign" type="Label3D" parent="Decor"]
+position = Vector3(0, 3.6, -3.5)
+rotation = Vector3(0, 0, 0)
+text = "WASD move  -  SPACE jump (twice = flip!)"
+font_size = 56
+pixel_size = 0.008
+outline_size = 16
+modulate = Color(1, 1, 1, 1)
+outline_modulate = Color(0.05, 0.05, 0.15, 1)
+
+[node name="Sign2" type="Label3D" parent="Decor"]
+position = Vector3(0, 2.6, -3.5)
+rotation = Vector3(0, 0, 0)
+text = "Collect ALL the coins, then enter the door"
+font_size = 44
+pixel_size = 0.008
+outline_size = 16
+modulate = Color(1, 0.9, 0.4, 1)
+outline_modulate = Color(0.05, 0.05, 0.15, 1)
+
+[node name="Sign3" type="Label3D" parent="Decor"]
+position = Vector3(0, 5.8, -66)
+rotation = Vector3(0, 0, 0)
+text = "Falling platforms crumble - keep moving!"
+font_size = 48
+pixel_size = 0.008
+outline_size = 16
+modulate = Color(1, 0.75, 0.6, 1)
+outline_modulate = Color(0.05, 0.05, 0.15, 1)
+
+[node name="Sign4" type="Label3D" parent="Decor"]
+position = Vector3(0, 14, -117)
+rotation = Vector3(0, 0, 0)
+text = "GOAL"
+font_size = 90
+pixel_size = 0.008
+outline_size = 16
+modulate = Color(1, 0.9, 0.4, 1)
+outline_modulate = Color(0.05, 0.05, 0.15, 1)
+
+[node name="Rail" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_50")
+position = Vector3(-2.12, 2.65, -50.2)
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 2.35, -43.2)
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 2.35, -46.7)
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 2.35, -50.2)
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 2.35, -53.7)
+cast_shadow = 0
+
+[node name="Post5" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 2.35, -57.2)
+cast_shadow = 0
+
+[node name="Rail2" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_50")
+position = Vector3(2.12, 2.65, -50.2)
+cast_shadow = 0
+
+[node name="Post6" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 2.35, -43.2)
+cast_shadow = 0
+
+[node name="Post7" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 2.35, -46.7)
+cast_shadow = 0
+
+[node name="Post8" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 2.35, -50.2)
+cast_shadow = 0
+
+[node name="Post9" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 2.35, -53.7)
+cast_shadow = 0
+
+[node name="Post10" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 2.35, -57.2)
+cast_shadow = 0
+
+[node name="Rail3" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_50")
+position = Vector3(-2.12, 8.35, -100.6)
+cast_shadow = 0
+
+[node name="Post11" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 8.05, -93.6)
+cast_shadow = 0
+
+[node name="Post12" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 8.05, -97.1)
+cast_shadow = 0
+
+[node name="Post13" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 8.05, -100.6)
+cast_shadow = 0
+
+[node name="Post14" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 8.05, -104.1)
+cast_shadow = 0
+
+[node name="Post15" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(-2.12, 8.05, -107.6)
+cast_shadow = 0
+
+[node name="Rail4" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_50")
+position = Vector3(2.12, 8.35, -100.6)
+cast_shadow = 0
+
+[node name="Post16" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 8.05, -93.6)
+cast_shadow = 0
+
+[node name="Post17" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 8.05, -97.1)
+cast_shadow = 0
+
+[node name="Post18" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 8.05, -100.6)
+cast_shadow = 0
+
+[node name="Post19" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 8.05, -104.1)
+cast_shadow = 0
+
+[node name="Post20" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("BoxMesh_51")
+position = Vector3(2.12, 8.05, -107.6)
+cast_shadow = 0
+
+[node name="Tree" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 2.9336, 0)
+scale = Vector3(1.049, 1.049, 1.049)
+position = Vector3(-3.5872, 0, -2.006)
+
+[node name="Tree2" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 3.0487, 0)
+scale = Vector3(1.0849, 1.0849, 1.0849)
+position = Vector3(0.9132, 0, 4.0285)
+
+[node name="Flower" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 1.2138, 0)
+scale = Vector3(0.9444, 0.9444, 0.9444)
+position = Vector3(-1.1965, 0, 2.2079)
+
+[node name="Flower2" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 4.9378, 0)
+scale = Vector3(1.0194, 1.0194, 1.0194)
+position = Vector3(0.2787, 0, -2.2186)
+
+[node name="Flower3" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 2.7014, 0)
+scale = Vector3(1.0521, 1.0521, 1.0521)
+position = Vector3(0.6273, 0, -2.3692)
+
+[node name="Flower4" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 2.0632, 0)
+scale = Vector3(1.3294, 1.3294, 1.3294)
+position = Vector3(3.0654, 0, 2.562)
+
+[node name="Flower5" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 2.6562, 0)
+scale = Vector3(1.1023, 1.1023, 1.1023)
+position = Vector3(-0.4167, 0, 3.8142)
+
+[node name="Flower6" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 1.3609, 0)
+scale = Vector3(0.9473, 0.9473, 0.9473)
+position = Vector3(-0.4145, 0, -0.7422)
+
+[node name="Flower7" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 0.0593, 0)
+scale = Vector3(1.1822, 1.1822, 1.1822)
+position = Vector3(0.6368, 0, -2.1611)
+
+[node name="Flower8" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 1.7442, 0)
+scale = Vector3(1.2818, 1.2818, 1.2818)
+position = Vector3(0.5467, 0, 0.7869)
+
+[node name="Flower9" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 5.6295, 0)
+scale = Vector3(1.1845, 1.1845, 1.1845)
+position = Vector3(-3.8323, 0, 2.6159)
+
+[node name="Flower10" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 1.9549, 0)
+scale = Vector3(1.335, 1.335, 1.335)
+position = Vector3(2.0444, 0, 3.5237)
+
+[node name="Flower11" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 5.9891, 0)
+scale = Vector3(0.933, 0.933, 0.933)
+position = Vector3(-1.2505, 0, -3.2222)
+
+[node name="Flower12" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 5.4994, 0)
+scale = Vector3(1.3193, 1.3193, 1.3193)
+position = Vector3(-2.562, 0, -1.3191)
+
+[node name="Mushroom" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 4.4319, 0)
+scale = Vector3(1.0098, 1.0098, 1.0098)
+position = Vector3(3.2287, 0, 2.9892)
+
+[node name="Rock" parent="Decor" instance=ExtResource("28_pac")]
+rotation = Vector3(0, 4.9752, 0)
+scale = Vector3(0.7702, 0.7702, 0.7702)
+position = Vector3(1.6807, 0, -4.3035)
+
+[node name="Flower13" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 5.8587, 0)
+scale = Vector3(1.1737, 1.1737, 1.1737)
+position = Vector3(0.7924, 0.5, -8.3477)
+
+[node name="Flower14" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 6.0107, 0)
+scale = Vector3(1.3422, 1.3422, 1.3422)
+position = Vector3(2.1268, 0.5, -10.3354)
+
+[node name="Flower15" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 3.4561, 0)
+scale = Vector3(1.3993, 1.3993, 1.3993)
+position = Vector3(-0.2682, 0.5, -9.5627)
+
+[node name="Flower16" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 5.1779, 0)
+scale = Vector3(0.9453, 0.9453, 0.9453)
+position = Vector3(-0.7205, 0.5, -9.8295)
+
+[node name="Flower17" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 2.6689, 0)
+scale = Vector3(1.1622, 1.1622, 1.1622)
+position = Vector3(0.7802, 0.5, -10.3246)
+
+[node name="Mushroom2" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 6.0246, 0)
+scale = Vector3(0.7977, 0.7977, 0.7977)
+position = Vector3(0.646, 0.5, -11.9771)
+
+[node name="Flower18" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 0.0761, 0)
+scale = Vector3(1.2165, 1.2165, 1.2165)
+position = Vector3(-4.8665, 1.2, -14.617)
+
+[node name="Flower19" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 0.2792, 0)
+scale = Vector3(1.0682, 1.0682, 1.0682)
+position = Vector3(-3.8266, 1.2, -17.3491)
+
+[node name="Flower20" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 3.4687, 0)
+scale = Vector3(1.1677, 1.1677, 1.1677)
+position = Vector3(-4.2198, 1.2, -17.5676)
+
+[node name="Flower21" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 2.17, 0)
+scale = Vector3(1.0822, 1.0822, 1.0822)
+position = Vector3(-5.437, 1.2, -14.9008)
+
+[node name="Flower22" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 1.3841, 0)
+scale = Vector3(0.9331, 0.9331, 0.9331)
+position = Vector3(-5.6268, 1.2, -15.7159)
+
+[node name="Mushroom3" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 0.7564, 0)
+scale = Vector3(0.837, 0.837, 0.837)
+position = Vector3(-3.401, 1.2, -15.0242)
+
+[node name="Flower23" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 1.2711, 0)
+scale = Vector3(1.2356, 1.2356, 1.2356)
+position = Vector3(-0.7606, 1.9, -22.1894)
+
+[node name="Flower24" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 3.4528, 0)
+scale = Vector3(0.9638, 0.9638, 0.9638)
+position = Vector3(0.5428, 1.9, -24.095)
+
+[node name="Flower25" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 1.891, 0)
+scale = Vector3(1.0278, 1.0278, 1.0278)
+position = Vector3(-0.858, 1.9, -23.2542)
+
+[node name="Flower26" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 4.7185, 0)
+scale = Vector3(1.023, 1.023, 1.023)
+position = Vector3(0.5181, 1.9, -23.4737)
+
+[node name="Flower27" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 2.7539, 0)
+scale = Vector3(0.9258, 0.9258, 0.9258)
+position = Vector3(-0.825, 1.9, -23.4413)
+
+[node name="Mushroom4" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 1.284, 0)
+scale = Vector3(0.7135, 0.7135, 0.7135)
+position = Vector3(-1.8155, 1.9, -23.6247)
+
+[node name="Tree3" parent="Decor" instance=ExtResource("29_pac")]
+rotation = Vector3(0, 0.0832, 0)
+scale = Vector3(1.1282, 1.1282, 1.1282)
+position = Vector3(2.2158, 1.9, -41.6129)
+
+[node name="Flower28" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 3.0608, 0)
+scale = Vector3(1.3026, 1.3026, 1.3026)
+position = Vector3(-1.095, 1.9, -41.9138)
+
+[node name="Flower29" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 3.796, 0)
+scale = Vector3(0.9606, 0.9606, 0.9606)
+position = Vector3(-0.3681, 1.9, -40.4217)
+
+[node name="Flower30" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 2.1287, 0)
+scale = Vector3(1.265, 1.265, 1.265)
+position = Vector3(1.6108, 1.9, -39.032)
+
+[node name="Flower31" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 0.6824, 0)
+scale = Vector3(0.9032, 0.9032, 0.9032)
+position = Vector3(1.2553, 1.9, -38.3433)
+
+[node name="Flower32" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 0.6035, 0)
+scale = Vector3(1.0162, 1.0162, 1.0162)
+position = Vector3(-1.1977, 1.9, -38.4954)
+
+[node name="Flower33" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 5.7534, 0)
+scale = Vector3(1.2911, 1.2911, 1.2911)
+position = Vector3(0.2959, 1.9, -39.2202)
+
+[node name="Flower34" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 0.2375, 0)
+scale = Vector3(0.9946, 0.9946, 0.9946)
+position = Vector3(-0.0613, 1.9, -40.9078)
+
+[node name="Mushroom5" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 4.4921, 0)
+scale = Vector3(1.0674, 1.0674, 1.0674)
+position = Vector3(-2.5462, 1.9, -40.2658)
+
+[node name="Rock2" parent="Decor" instance=ExtResource("28_pac")]
+rotation = Vector3(0, 1.4242, 0)
+scale = Vector3(0.9963, 0.9963, 0.9963)
+position = Vector3(-2.6813, 1.9, -40.189)
+
+[node name="Tree4" parent="Decor" instance=ExtResource("30_pac")]
+rotation = Vector3(0, 3.6229, 0)
+scale = Vector3(0.9943, 0.9943, 0.9943)
+position = Vector3(2.6716, 3.1, -80.1614)
+
+[node name="Flower35" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 2.8157, 0)
+scale = Vector3(1.1854, 1.1854, 1.1854)
+position = Vector3(0.5957, 3.1, -78.3744)
+
+[node name="Flower36" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 6.241, 0)
+scale = Vector3(1.1015, 1.1015, 1.1015)
+position = Vector3(1.5408, 3.1, -80.572)
+
+[node name="Flower37" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 4.2991, 0)
+scale = Vector3(0.9309, 0.9309, 0.9309)
+position = Vector3(0.4855, 3.1, -78.4569)
+
+[node name="Flower38" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 4.5419, 0)
+scale = Vector3(1.0942, 1.0942, 1.0942)
+position = Vector3(1.0994, 3.1, -78.2397)
+
+[node name="Flower39" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 4.7421, 0)
+scale = Vector3(1.3678, 1.3678, 1.3678)
+position = Vector3(-0.908, 3.1, -79.3489)
+
+[node name="Flower40" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 2.4448, 0)
+scale = Vector3(1.0208, 1.0208, 1.0208)
+position = Vector3(-0.3253, 3.1, -78.43)
+
+[node name="Flower41" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 1.0314, 0)
+scale = Vector3(1.1195, 1.1195, 1.1195)
+position = Vector3(0.0708, 3.1, -77.3463)
+
+[node name="Flower42" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 4.7484, 0)
+scale = Vector3(0.9954, 0.9954, 0.9954)
+position = Vector3(2.6088, 3.1, -80.3142)
+
+[node name="Mushroom6" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 1.4068, 0)
+scale = Vector3(0.9103, 0.9103, 0.9103)
+position = Vector3(0.523, 3.1, -81.9947)
+
+[node name="Rock3" parent="Decor" instance=ExtResource("28_pac")]
+rotation = Vector3(0, 5.6042, 0)
+scale = Vector3(0.7642, 0.7642, 0.7642)
+position = Vector3(3.1216, 3.1, -78.3334)
+
+[node name="Tree5" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 4.8666, 0)
+scale = Vector3(1.1203, 1.1203, 1.1203)
+position = Vector3(-2.4438, 7.6, -91.6088)
+
+[node name="Flower43" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 5.337, 0)
+scale = Vector3(0.9278, 0.9278, 0.9278)
+position = Vector3(-2.7934, 7.6, -89.2473)
+
+[node name="Flower44" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 0.1322, 0)
+scale = Vector3(1.1412, 1.1412, 1.1412)
+position = Vector3(-0.3642, 7.6, -90.679)
+
+[node name="Flower45" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 0.273, 0)
+scale = Vector3(0.9283, 0.9283, 0.9283)
+position = Vector3(2.6416, 7.6, -90.4944)
+
+[node name="Flower46" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 5.2452, 0)
+scale = Vector3(1.3584, 1.3584, 1.3584)
+position = Vector3(0.8561, 7.6, -89.9861)
+
+[node name="Flower47" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 4.5651, 0)
+scale = Vector3(1.0348, 1.0348, 1.0348)
+position = Vector3(0.8851, 7.6, -87.9065)
+
+[node name="Flower48" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 3.7435, 0)
+scale = Vector3(1.3268, 1.3268, 1.3268)
+position = Vector3(2.3356, 7.6, -90.4325)
+
+[node name="Flower49" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 3.0642, 0)
+scale = Vector3(1.3599, 1.3599, 1.3599)
+position = Vector3(0.6169, 7.6, -89.2723)
+
+[node name="Mushroom7" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 5.3942, 0)
+scale = Vector3(0.7187, 0.7187, 0.7187)
+position = Vector3(-2.5279, 7.6, -88.6201)
+
+[node name="Rock4" parent="Decor" instance=ExtResource("28_pac")]
+rotation = Vector3(0, 4.4776, 0)
+scale = Vector3(0.7054, 0.7054, 0.7054)
+position = Vector3(-2.9688, 7.6, -90.5751)
+
+[node name="Tree6" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 3.9141, 0)
+scale = Vector3(0.8909, 0.8909, 0.8909)
+position = Vector3(-1.1064, 7.6, -117.1559)
+
+[node name="Tree7" parent="Decor" instance=ExtResource("30_pac")]
+rotation = Vector3(0, 4.8367, 0)
+scale = Vector3(1.0728, 1.0728, 1.0728)
+position = Vector3(3.1125, 7.6, -115.1478)
+
+[node name="Flower50" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 0.6125, 0)
+scale = Vector3(1.1706, 1.1706, 1.1706)
+position = Vector3(-1.9686, 7.6, -112.3419)
+
+[node name="Flower51" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 5.2142, 0)
+scale = Vector3(0.9823, 0.9823, 0.9823)
+position = Vector3(1.5473, 7.6, -115.3564)
+
+[node name="Flower52" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 3.3835, 0)
+scale = Vector3(1.283, 1.283, 1.283)
+position = Vector3(2.7269, 7.6, -112.5781)
+
+[node name="Flower53" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 5.7249, 0)
+scale = Vector3(0.9273, 0.9273, 0.9273)
+position = Vector3(-1.6915, 7.6, -113.0315)
+
+[node name="Flower54" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 1.0694, 0)
+scale = Vector3(1.3101, 1.3101, 1.3101)
+position = Vector3(-0.136, 7.6, -116.4557)
+
+[node name="Flower55" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 1.8042, 0)
+scale = Vector3(1.1835, 1.1835, 1.1835)
+position = Vector3(0.5714, 7.6, -113.1205)
+
+[node name="Flower56" parent="Decor" instance=ExtResource("26_pac")]
+rotation = Vector3(0, 3.5368, 0)
+scale = Vector3(1.2449, 1.2449, 1.2449)
+position = Vector3(2.6635, 7.6, -116.5367)
+
+[node name="Flower57" parent="Decor" instance=ExtResource("25_pac")]
+rotation = Vector3(0, 5.1902, 0)
+scale = Vector3(0.9597, 0.9597, 0.9597)
+position = Vector3(0.2867, 7.6, -113.2345)
+
+[node name="Flower58" parent="Decor" instance=ExtResource("24_pac")]
+rotation = Vector3(0, 1.155, 0)
+scale = Vector3(0.9928, 0.9928, 0.9928)
+position = Vector3(1.3213, 7.6, -112.2415)
+
+[node name="Mushroom8" parent="Decor" instance=ExtResource("27_pac")]
+rotation = Vector3(0, 3.0205, 0)
+scale = Vector3(0.7238, 0.7238, 0.7238)
+position = Vector3(-3.5199, 7.6, -113.9793)
+
+[node name="Rock5" parent="Decor" instance=ExtResource("28_pac")]
+rotation = Vector3(0, 5.5678, 0)
+scale = Vector3(0.9847, 0.9847, 0.9847)
+position = Vector3(-2.3284, 7.6, -111.1296)
+
+[node name="Tree8" parent="Decor" instance=ExtResource("30_pac")]
+rotation = Vector3(0, 0.4, 0)
+scale = Vector3(1.2, 1.2, 1.2)
+position = Vector3(-4, 0, 1.5)
+
+[node name="Tree9" parent="Decor" instance=ExtResource("29_pac")]
+rotation = Vector3(0, 1.2, 0)
+scale = Vector3(1.1, 1.1, 1.1)
+position = Vector3(4, 0, 2)
+
+[node name="FarIsland" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 1.4467, 0)
+scale = Vector3(0.4658, 0.4658, 0.4658)
+position = Vector3(-58.1013, -2.3374, 23.7602)
+
+[node name="FarIsland2" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 1.2459, 0)
+scale = Vector3(0.8286, 0.8286, 0.8286)
+position = Vector3(-74.7095, 0.2832, -126.1203)
+
+[node name="FarTree" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(1.16, 1.16, 1.16)
+position = Vector3(-75.2583, 0.2832, -124.6627)
+
+[node name="FarIsland3" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 5.8928, 0)
+scale = Vector3(0.5643, 0.5643, 0.5643)
+position = Vector3(40.2791, -3.1673, -75.3376)
+
+[node name="FarIsland4" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 3.3144, 0)
+scale = Vector3(0.6332, 0.6332, 0.6332)
+position = Vector3(-57.6806, 17.3384, -0.4799)
+
+[node name="FarIsland5" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 0.657, 0)
+scale = Vector3(0.5072, 0.5072, 0.5072)
+position = Vector3(-36.7932, 15.7586, -52.9616)
+
+[node name="FarTree2" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(0.7101, 0.7101, 0.7101)
+position = Vector3(-36.179, 15.7586, -53.1718)
+
+[node name="FarIsland6" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 0.383, 0)
+scale = Vector3(0.9106, 0.9106, 0.9106)
+position = Vector3(-39.4629, 3.0417, -83.1751)
+
+[node name="FarTree3" parent="Decor" instance=ExtResource("30_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(1.2748, 1.2748, 1.2748)
+position = Vector3(-39.0449, 3.0417, -82.494)
+
+[node name="FarIsland7" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 0.0029, 0)
+scale = Vector3(0.5808, 0.5808, 0.5808)
+position = Vector3(-64.2287, 8.1705, -72.3176)
+
+[node name="FarIsland8" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 5.3841, 0)
+scale = Vector3(1.0017, 1.0017, 1.0017)
+position = Vector3(42.6135, -5.9776, -100.4606)
+
+[node name="FarTree4" parent="Decor" instance=ExtResource("30_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(1.4024, 1.4024, 1.4024)
+position = Vector3(43.4124, -5.9776, -101.5373)
+
+[node name="FarIsland9" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 1.4816, 0)
+scale = Vector3(0.8266, 0.8266, 0.8266)
+position = Vector3(32.8066, 10.7525, -61.7924)
+
+[node name="FarIsland10" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 4.3695, 0)
+scale = Vector3(1.0371, 1.0371, 1.0371)
+position = Vector3(27.5271, -1.3576, -91.9375)
+
+[node name="FarTree5" parent="Decor" instance=ExtResource("29_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(1.452, 1.452, 1.452)
+position = Vector3(28.7751, -1.3576, -92.494)
+
+[node name="FarIsland11" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 1.8831, 0)
+scale = Vector3(0.7012, 0.7012, 0.7012)
+position = Vector3(73.3476, 11.7628, 14.7978)
+
+[node name="FarTree6" parent="Decor" instance=ExtResource("29_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(0.9817, 0.9817, 0.9817)
+position = Vector3(72.434, 11.7628, 14.9005)
+
+[node name="FarIsland12" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 5.5541, 0)
+scale = Vector3(0.7859, 0.7859, 0.7859)
+position = Vector3(-50.3441, 11.4941, -24.9026)
+
+[node name="FarTree7" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(1.1003, 1.1003, 1.1003)
+position = Vector3(-49.9781, 11.4941, -23.5383)
+
+[node name="FarIsland13" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 0.914, 0)
+scale = Vector3(0.6028, 0.6028, 0.6028)
+position = Vector3(58.1424, -0.8085, -79.2365)
+
+[node name="FarTree8" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(0.844, 0.844, 0.844)
+position = Vector3(58.8221, -0.8085, -79.8969)
+
+[node name="FarIsland14" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 2.0772, 0)
+scale = Vector3(0.5264, 0.5264, 0.5264)
+position = Vector3(-25.206, 12.758, -39.913)
+
+[node name="FarTree9" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(0.737, 0.737, 0.737)
+position = Vector3(-24.4141, 12.758, -40.7946)
+
+[node name="FarIsland15" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 3.3197, 0)
+scale = Vector3(0.877, 0.877, 0.877)
+position = Vector3(31.7584, -5.3686, 21.8364)
+
+[node name="FarTree10" parent="Decor" instance=ExtResource("23_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(1.2278, 1.2278, 1.2278)
+position = Vector3(31.4036, -5.3686, 21.6963)
+
+[node name="FarIsland16" parent="Decor" instance=ExtResource("31_pac")]
+rotation = Vector3(0, 4.5631, 0)
+scale = Vector3(1.062, 1.062, 1.062)
+position = Vector3(-44.4434, -0.3807, -131.7052)
+
+[node name="FarTree11" parent="Decor" instance=ExtResource("29_pac")]
+rotation = Vector3(0, 0, 0)
+scale = Vector3(1.4868, 1.4868, 1.4868)
+position = Vector3(-45.4663, -0.3807, -131.5047)
+
+[node name="Cloud" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 0.957, 0)
+scale = Vector3(0.7937, 0.7937, 0.7937)
+position = Vector3(-43.7307, 0.1701, -20.5605)
+
+[node name="Cloud2" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 2.2828, 0)
+scale = Vector3(1.7026, 1.7026, 1.7026)
+position = Vector3(-78.7431, 17.7052, -14.0739)
+
+[node name="Cloud3" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 5.2153, 0)
+scale = Vector3(1.4492, 1.4492, 1.4492)
+position = Vector3(19.3789, 0.4125, -31.0942)
+
+[node name="Cloud4" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 4.4573, 0)
+scale = Vector3(1.6412, 1.6412, 1.6412)
+position = Vector3(-20.102, 1.9821, -95.456)
+
+[node name="Cloud5" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 5.7951, 0)
+scale = Vector3(1.5066, 1.5066, 1.5066)
+position = Vector3(-73.2295, 22.8759, -13.0077)
+
+[node name="Cloud6" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 3.1822, 0)
+scale = Vector3(1.6196, 1.6196, 1.6196)
+position = Vector3(-42.7851, 20.793, -55.8986)
+
+[node name="Cloud7" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 0.5093, 0)
+scale = Vector3(1.129, 1.129, 1.129)
+position = Vector3(-76.7181, 2.1762, -14.9625)
+
+[node name="Cloud8" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 1.9842, 0)
+scale = Vector3(1.2503, 1.2503, 1.2503)
+position = Vector3(26.5124, 27.7539, -74.7386)
+
+[node name="Cloud9" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 3.2167, 0)
+scale = Vector3(1.206, 1.206, 1.206)
+position = Vector3(-68.3314, 14.5514, -53.6574)
+
+[node name="Cloud10" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 2.7341, 0)
+scale = Vector3(0.8353, 0.8353, 0.8353)
+position = Vector3(-61.9975, 4.1746, -81.5788)
+
+[node name="Cloud11" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 1.345, 0)
+scale = Vector3(1.273, 1.273, 1.273)
+position = Vector3(-61.5538, 1.3213, -15.9416)
+
+[node name="Cloud12" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 0.4961, 0)
+scale = Vector3(0.7529, 0.7529, 0.7529)
+position = Vector3(-23.1993, 2.1516, -22.7533)
+
+[node name="Cloud13" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 3.3448, 0)
+scale = Vector3(0.8245, 0.8245, 0.8245)
+position = Vector3(-57.4344, 19.6242, -68.984)
+
+[node name="Cloud14" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 0.3059, 0)
+scale = Vector3(1.564, 1.564, 1.564)
+position = Vector3(68.4818, 3.6899, -32.9065)
+
+[node name="Cloud15" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 5.0733, 0)
+scale = Vector3(0.8328, 0.8328, 0.8328)
+position = Vector3(-80.4969, 18.0216, -123.821)
+
+[node name="Cloud16" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 4.2506, 0)
+scale = Vector3(1.5672, 1.5672, 1.5672)
+position = Vector3(-19.1919, -0.3798, -92.885)
+
+[node name="Cloud17" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 5.3692, 0)
+scale = Vector3(0.8417, 0.8417, 0.8417)
+position = Vector3(59.0535, 19.076, -118.6271)
+
+[node name="Cloud18" parent="Decor" instance=ExtResource("32_pac")]
+rotation = Vector3(0, 0.6743, 0)
+scale = Vector3(1.2377, 1.2377, 1.2377)
+position = Vector3(-49.2561, 19.6928, -117.8697)
+
+[node name="Sun" type="MeshInstance3D" parent="Decor"]
+mesh = SubResource("SphereMesh_52")
+position = Vector3(-130, 80, -230)
+cast_shadow = 0
+
+[node name="Sparkles" type="CPUParticles3D" parent="Environment"]
+position = Vector3(0, 6, -60)
+amount = 110
+lifetime = 10
+mesh = SubResource("SphereMesh_53")
+emission_shape = 3
+emission_box_extents = Vector3(16, 9, 75)
+direction = Vector3(0, 1, 0)
+spread = 25
+gravity = Vector3(0, 0.15, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 0.4
+scale_amount_min = 0.5
+scale_amount_max = 1.6
+visibility_aabb = AABB(-30, -20, -90, 60, 50, 180)

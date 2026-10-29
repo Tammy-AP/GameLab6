@@ -1,0 +1,133 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://Scripts/hazard.gd" id="1_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/steel_dark.tres" id="2_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/steel.tres" id="3_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/danger.tres" id="4_sta"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(4, 0.8, 1.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(4, 0.12, 1.7)
+material = ExtResource("2_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0
+bottom_radius = 0.32
+height = 0.8
+radial_segments = 4
+rings = 1
+material = ExtResource("3_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0
+bottom_radius = 0.1
+height = 0.22
+radial_segments = 4
+rings = 1
+material = ExtResource("4_sta")
+
+[node name="Spikes5" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1")
+position = Vector3(0, 0.4, 0)
+
+[node name="Plate" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2")
+position = Vector3(0, 0.06, 0)
+
+[node name="Spike" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(-1.6, 0.5, -0.4)
+
+[node name="Tip" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(-1.6, 0.82, -0.4)
+cast_shadow = 0
+
+[node name="Spike2" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(-0.8, 0.5, -0.4)
+
+[node name="Tip2" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(-0.8, 0.82, -0.4)
+cast_shadow = 0
+
+[node name="Spike3" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(0, 0.5, -0.4)
+
+[node name="Tip3" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(0, 0.82, -0.4)
+cast_shadow = 0
+
+[node name="Spike4" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(0.8, 0.5, -0.4)
+
+[node name="Tip4" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(0.8, 0.82, -0.4)
+cast_shadow = 0
+
+[node name="Spike5" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(1.6, 0.5, -0.4)
+
+[node name="Tip5" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(1.6, 0.82, -0.4)
+cast_shadow = 0
+
+[node name="Spike6" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(-1.6, 0.5, 0.4)
+
+[node name="Tip6" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(-1.6, 0.82, 0.4)
+cast_shadow = 0
+
+[node name="Spike7" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(-0.8, 0.5, 0.4)
+
+[node name="Tip7" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(-0.8, 0.82, 0.4)
+cast_shadow = 0
+
+[node name="Spike8" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(0, 0.5, 0.4)
+
+[node name="Tip8" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(0, 0.82, 0.4)
+cast_shadow = 0
+
+[node name="Spike9" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(0.8, 0.5, 0.4)
+
+[node name="Tip9" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(0.8, 0.82, 0.4)
+cast_shadow = 0
+
+[node name="Spike10" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(1.6, 0.5, 0.4)
+
+[node name="Tip10" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_4")
+position = Vector3(1.6, 0.82, 0.4)
+cast_shadow = 0

@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://Scripts/spring.gd" id="1_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/spring_base.tres" id="2_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/spring_coil.tres" id="3_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/spring_pad.tres" id="4_sta"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(1.5, 0.9, 1.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.8
+bottom_radius = 0.9
+height = 0.25
+radial_segments = 8
+rings = 1
+material = ExtResource("2_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.3
+radial_segments = 8
+rings = 1
+material = ExtResource("3_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.7
+bottom_radius = 0.7
+height = 0.16
+radial_segments = 8
+rings = 1
+material = ExtResource("4_sta")
+
+[node name="Spring" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1")
+position = Vector3(0, 0.45, 0)
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_2")
+position = Vector3(0, 0.125, 0)
+
+[node name="Coil" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(0, 0.35, 0)
+
+[node name="Pad" type="Node3D" parent="."]
+position = Vector3(0, 0.5, 0)
+
+[node name="PadMesh" type="MeshInstance3D" parent="Pad"]
+mesh = SubResource("CylinderMesh_4")

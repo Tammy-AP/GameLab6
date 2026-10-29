@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Scripts/collectible.gd" id="1_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/gold.tres" id="2_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/gold_dark.tres" id="3_sta"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
+radius = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.4
+bottom_radius = 0.4
+height = 0.09
+radial_segments = 10
+rings = 1
+material = ExtResource("2_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.26
+bottom_radius = 0.26
+height = 0.13
+radial_segments = 10
+rings = 1
+material = ExtResource("3_sta")
+
+[node name="Coin" type="Area3D" groups=["coin"]]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_1")
+position = Vector3(0, 0.6, 0)
+
+[node name="Mesh" type="Node3D" parent="."]
+position = Vector3(0, 0.6, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Mesh"]
+mesh = SubResource("CylinderMesh_2")
+rotation = Vector3(1.5708, 0, 0)
+cast_shadow = 0
+
+[node name="Inner" type="MeshInstance3D" parent="Mesh"]
+mesh = SubResource("CylinderMesh_3")
+rotation = Vector3(1.5708, 0, 0)
+cast_shadow = 0

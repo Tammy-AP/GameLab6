@@ -1,0 +1,65 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://Scripts/checkpoint.gd" id="1_scr"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/steel_dark.tres" id="2_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/white.tres" id="3_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/gold.tres" id="4_sta"]
+[ext_resource type="StandardMaterial3D" path="res://Assets/Materials/flag_red.tres" id="5_sta"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(2.4, 3, 2.4)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.35
+bottom_radius = 0.45
+height = 0.22
+radial_segments = 8
+rings = 1
+material = ExtResource("2_sta")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 2.8
+radial_segments = 6
+rings = 1
+material = ExtResource("3_sta")
+
+[sub_resource type="SphereMesh" id="SphereMesh_4"]
+radius = 0.1
+height = 0.2
+radial_segments = 6
+rings = 3
+material = ExtResource("4_sta")
+
+[sub_resource type="BoxMesh" id="BoxMesh_5"]
+size = Vector3(0.9, 0.55, 0.05)
+material = ExtResource("5_sta")
+
+[node name="Checkpoint" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_scr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1")
+position = Vector3(0, 1.5, 0)
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_2")
+position = Vector3(0, 0.11, 0)
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3")
+position = Vector3(0, 1.4, 0)
+
+[node name="Knob" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4")
+position = Vector3(0, 2.85, 0)
+cast_shadow = 0
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_5")
+position = Vector3(0.5, 2.4, 0)
+cast_shadow = 0
