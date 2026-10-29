@@ -1,14 +1,5 @@
 # Skybound Bot – แบบฝึกหัดที่ 6 First 3D Character (Godot 4.7)
 
-ต่อยอดจากเกมแบบฝึกหัดที่ 5 (Skybound Bot) โดยเปลี่ยน **Player เป็นตัวละครที่สร้างเอง**
-ใส่โครงกระดูกแบบ Mixamo แล้วนำ Animation จาก
-[Godot4-OpenAnimationLibraries](https://github.com/catprisbrey/Godot4-OpenAnimationLibraries)
-(`MeleeLib.res` + `ShooterLib.res`) มาใช้ผ่าน `Mixamo BoneMap.tres`
-และเพิ่มฉาก **Character Demo** สำหรับโชว์ท่าทางต่าง ๆ
-
-- เล่นบนเว็บ: _(ใส่ลิงก์ GitHub Pages)_
-- หน้าเมนู: `Enter / Space` = เล่นเกม, `C` หรือปุ่ม **Character Demo** = ดูท่าทางตัวละคร
-
 ![Character Demo](Screenshots/4f_demo_slash.png)
 
 ## วิธีเล่น
